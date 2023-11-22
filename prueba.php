@@ -7,7 +7,7 @@ header('Content-Type: application/json');
 
 $prueba = new Conexion();
 
-/*//prueba login
+//prueba login
 $estatus = $prueba->validate_user('user1','user1');
 if($estatus){
     $data = [
@@ -20,9 +20,9 @@ if($estatus){
     $hash = password_hash('user1', PASSWORD_DEFAULT);
     echo $hash;
     echo "error";
-}*/
+}
 
-//pureba crear cuenta
+/*/pureba crear cuenta
     $d = $prueba->newUserBasic('user2', password_hash('user2', PASSWORD_DEFAULT), 'user2','user2', 'user2', '2000-01-01', 'user2@mail.com');
         if ($d['estatus'] == 'ok'){
             $data = [
@@ -36,7 +36,7 @@ if($estatus){
                 'message' => $d['getMessage']
             ];
         }                
-        echo json_encode($data);
+        echo json_encode($data);*/
 
 
 ?>
