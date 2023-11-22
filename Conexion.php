@@ -19,17 +19,50 @@ class Conexion {
         $this->conn = null;
     }
 
-    public function validate_user($nickname) {
+    public function validate_user($nickname, $pass) {
         try {
-            $stmt = $this->conn->prepare("SELECT COUNT(*) FROM usuarios WHERE nickname = :nickname");
+            $stmt = $this->conn->prepare("SELECT pass FROM usuarios WHERE nickname = :nickname");
             $stmt->bindParam(':nickname', $nickname, PDO::PARAM_STR);
             $stmt->execute();
-
-            $result = $stmt->fetchColumn();
-            return $result > 0;
+    
+            if ($stmt->rowCount() > 0) {
+                $hashedPassword = $stmt->fetch(PDO::FETCH_ASSOC)['pass'];
+    
+                // Utiliza password_verify para comparar el hash de la contraseña con la contraseña proporcionada
+                return password_verify($pass, $hashedPassword);
+            } else {
+                // El usuario no existe
+                return false;
+            }
         } catch(PDOException $e) {
             die("Error en la consulta: " . $e->getMessage());
         }
     }
+
+    public function newUserBasic($nickname, $hashedPassword, $nombres, $apellidoP, $apellidoM, $fechaN, $correo){
+        try{
+        $stmt = $this->conn->prepare("CALL newUserBasic(:nickname, :pass, :Nombres, :ApellidoP, :ApellidoM, :FechaN, :Correo)");
+
+        $stmt->bindParam(':nickname', $nickname);
+        $stmt->bindParam(':pass', $hashedPassword); 
+        $stmt->bindParam(':Nombres', $nombres);
+        $stmt->bindParam(':ApellidoP', $apellidoP);
+        $stmt->bindParam(':ApellidoM', $apellidoM);
+        $stmt->bindParam(':FechaN', $fechaN);
+        $stmt->bindParam(':Correo', $correo);
+
+        $stmt->execute();
+        $data = ['estatus' => 'ok'];
+        return $data;
+        }catch(PDOException $e) {
+            $data = [
+                'estatus' => 'error',
+                'getMessage' => $e->getMessage()
+            ];
+            //die();
+            return $data;
+        }
+    }
+    
 }
 ?>
