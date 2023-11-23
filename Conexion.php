@@ -138,8 +138,12 @@ class Conexion {
         return $response;
     }
 
-    public function grandPost(){
-        
+    public function allPost(){
+        $stmt = $this->conn->prepare("call allPublicacion()");
+        $stmt->execute();
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $response = json_encode($data);
+        return $response;
     }
 }
 ?>

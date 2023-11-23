@@ -22,8 +22,6 @@ $estatus = $prueba->validate_user('user1','user1');
         ];
     }
     echo json_encode($data);*/
-
-
 /*/PRUEBA CREAR CUENTA
     $d = $prueba->newUserBasic('user2', password_hash('user2', PASSWORD_DEFAULT), 'user2','user2', 'user2', '2000-01-01', 'user2@mail.com');
         if ($d['estatus'] == 'ok'){
@@ -40,8 +38,8 @@ $estatus = $prueba->validate_user('user1','user1');
         }                
         echo json_encode($data);*/
 /*/PRUEBA UPDATE CUENTA
-    $p = $prueba -> updateUser("user2", "2299102031","5", "1", "2", null, 'boca del rio', 'ver', 'mexico');
-    if($p['estatus'] == 'ok')
+    $d = $prueba -> updateUser("user2", "2299102031","5", "1", "2", null, 'boca del rio', 'ver', 'mexico');
+    if($d['estatus'] == 'ok')
         $data = [
             'action' => 'update user',
             'estatus' => 'ok'
@@ -60,8 +58,12 @@ $estatus = $prueba->validate_user('user1','user1');
 $d = $prueba -> newPost('user2', 'Elote', 2.0, 'pieza','verdura', '2299102030', 'mail.com', null, '1', null, 'venustiano', null, 'boca', 'ver', 'mexico');
 echo $d;
 */
-/*/PRUEBA SELECT SMALL LOGIN
+/*/PRUEBA SELECT SMALL POST
 $d = $prueba->smallPost();
 echo json_encode($d);*/
+//PRUEBA SELECT GRAND POST
+$d = $prueba->allPost();
+echo json_encode($d);
+
 
 ?>

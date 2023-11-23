@@ -42,6 +42,36 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     ];                               
                 echo json_encode($data);
                 break;
+            case 'update':
+                $d = $conn -> updateUser($input['nickname'], $input['telefono'], $input['Calle1'], $input['Calle2'],
+                $input['Colonia'], $input['Lote'], $input['Municipio'], $input['Estado'], $input['Pais']);
+                if($d['estatus'] == 'ok')
+                    $data = [
+                        'action' => 'update user',
+                        'estatus' => 'ok'
+                    ];                    
+                else
+                    $data = [
+                        'action' => 'update user',
+                        'estatus' => 'error'
+                    ];
+
+                echo json_encode($data);
+                break;
+            case 'smallPost':
+                $d = $conn->smallPost();
+                if($d['estatus'] == 'ok')
+                    $data = [
+                        'action' => 'smallPost',
+                        'estatus' => 'ok'
+                    ];                    
+                else
+                    $data = [
+                        'action' => 'smallPost',
+                        'estatus' => 'error'
+                    ];
+                echo json_encode($d);
+                break;
             }
     }
 }
