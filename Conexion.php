@@ -138,8 +138,9 @@ class Conexion {
         return $response;
     }
 
-    public function allPost(){
-        $stmt = $this->conn->prepare("call allPublicacion()");
+    public function allPost($id){
+        $stmt = $this->conn->prepare("call allPublicacion(:ID)");
+        $stmt->bindValue(':ID', $id);
         $stmt->execute();
         $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $response = json_encode($data);

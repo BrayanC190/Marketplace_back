@@ -61,9 +61,18 @@ echo $d;
 /*/PRUEBA SELECT SMALL POST
 $d = $prueba->smallPost();
 echo json_encode($d);*/
-//PRUEBA SELECT GRAND POST
-$d = $prueba->allPost();
+/*/PRUEBA SELECT GRAND POST
+$d = $prueba->allPost(6);
 echo json_encode($d);
+*/
+setFecha("20/11/2023");
+function setFecha($fechaOriginal){
+    $fechaObj = DateTime::createFromFormat('d/m/Y', $fechaOriginal);
+    // Reformatear la fecha al formato deseado
+    $fechaFormateada = $fechaObj->format('Y-m-d');
+
+    echo $fechaFormateada;
+}
 
 
 ?>

@@ -28,7 +28,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     echo json_encode($data);
                 break;
             case 'signup':
-                $d = $conn->newUserBasic($input['nickname'], $input['hashedPassword'], $input['nombres'], $input['apellidoP'], $input['apellidoM'], $input['fechaN'], $input['correo']);
+                $fecha = setFecha($input['fechaN']);
+                $d = $conn->newUserBasic($input['nickname'], $input['hashedPassword'], $input['nombres'], $input['apellidoP'], $input['apellidoM'], $fecha, $input['correo']);
                 if ($d['estatus'] == 'ok')
                     $data = [
                         'action' => 'singup',
@@ -72,7 +73,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     ];
                 echo json_encode($d);
                 break;
+            case 'allPublicacion':
+                $d = $conn->allPublicacion($input['id']);
+                if($d['estatus'] == 'ok')
+                    $data = [
+                        'action' => 'smallPost',
+                        'estatus' => 'ok'
+                    ];                    
+                else
+                    $data = [
+                        'action' => 'smallPost',
+                        'estatus' => 'error'
+                    ];
+                echo json_encode($d);
             }
+    }
+
+    function setFecha($fechaOriginal){
+        $fechaObj = DateTime::createFromFormat('d/m/Y', $fechaOriginal);
+        // Reformatear la fecha al formato deseado
+        $fechaFormateada = $fechaObj->format('Y-m-d');
+
+        echo $fechaFormateada;
     }
 }
 ?>
