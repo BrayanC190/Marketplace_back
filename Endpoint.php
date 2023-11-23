@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     echo json_encode($data);
                 break;
             case 'signup':
-                $d = $conn->newUserBasic($input['nickname'], $input['hashedPassword'], $input['nombres'], $input['apellidoP'], $input['fechaN'], $input['correo']);
+                $d = $conn->newUserBasic($input['nickname'], $input['hashedPassword'], $input['nombres'], $input['apellidoP'], $input['apellidoM'], $input['fechaN'], $input['correo']);
                 if ($d['estatus'] == 'ok')
                     $data = [
                         'action' => 'singup',

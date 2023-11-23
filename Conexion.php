@@ -63,6 +63,83 @@ class Conexion {
             return $data;
         }
     }
-    
+
+    public function updateUser($nickname, $telefono, $Calle1, $Calle2, $Colonia, $Lote, $Municipio, $Estado, $Pais){
+        try{
+            $stmt = $this->conn->prepare("CALL updateUser(nickname, telefono, Calle1, Calle2, Colonia, Lote, Municipio, Estado, Pais)");
+            
+            $stmt->bindParam(':nickname', $nickname);
+            $stmt->bindParam(':telefono', $telefono);
+            $stmt->bindParam(':Calle1', $Calle1);
+            $stmt->bindParam(':Calle2', $Calle2);
+            $stmt->bindParam(':Colonia', $Colonia);
+            $stmt->bindParam(':Lote', $Lote);
+            $stmt->bindParam(':Municipia', $Municipi);
+            $stmt->bindParam(':Estado', $Estado);            
+            $stmt->bindParam(':Pais', $Pais);   
+            $stmt->execute();         
+            $data = ['estatus' => 'ok'];
+            return $data;
+        }catch(PDOException $e){
+            $data = [
+                'estatus' => 'error',
+                'getMessage' => $e->getMessage()
+            ];
+            return $data;
+        }
+    }
+
+    public function newPost($nickname, $Nombre, $Precio, $Unidad, $Descripcion, $Telefono,
+    $Correo, $Web, $Calle1, $Calle2, $Colonia, $Lote, $Municipio, $Estado, $Pais){
+        try{
+            //$stmt = $this->conn->prepare("call newPublicacion('user2', 'Elote', 2.2, 'pieza','verdura', '2299102030', 'mail.com', null, '1', null, 'venustiano', null, 'boca', 'ver', 'mexico',@p_referenciaOut);");
+            
+            $stmt = $this->conn->prepare("call newPublicacion(
+                :nickname, :Nombre, :Precio, :Unidad, :Descripcion, :Telefono, :Correo,
+                :Web, :Calle1, :Calle2, :Colonia, :Lote, :Municipio,
+                :Estado, :Pais, @p_referenciaOut);");
+                
+            $stmt->bindValue(':nickname', $nickname);
+            $stmt->bindValue(':Nombre', $Nombre);
+            $stmt->bindValue(':Precio', $Precio);            
+            $stmt->bindValue(':Unidad', $Unidad);
+            $stmt->bindValue(':Descripcion', $Descripcion);
+            $stmt->bindValue(':Telefono', $Telefono);
+            $stmt->bindValue(':Correo', $Correo);
+            $stmt->bindValue(':Web', $Web);
+            $stmt->bindValue(':Calle1', $Calle1);
+            $stmt->bindValue(':Calle2', $Calle2);
+            $stmt->bindValue(':Colonia', $Colonia);
+            $stmt->bindValue(':Lote', $Lote, PDO::PARAM_INT);
+            $stmt->bindValue(':Municipio', $Municipio);
+            $stmt->bindValue(':Estado', $Estado);
+            $stmt->bindValue(':Pais', $Pais);         
+            $stmt->execute();
+
+            $stmt = $this->conn->prepare("SELECT @p_referenciaOut;");
+            $stmt->execute();
+
+            $select = $stmt->fetchAll(PDO::FETCH_ASSOC);        
+                return json_encode($select);
+        }catch(PDOException $e){
+            $data = [
+                'estatus' => 'error',
+                'getMessage' => $e->getMessage()
+            ];
+            return json_encode($data);
+        }
+    }
+
+    public function smallPost(){
+        $stmt = $this->conn->prepare("CALL smallPublicacion()");
+        $stmt->execute();
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $response = json_encode($data);
+        return $response;
+    }
+
+    public function grandPost(){
+        
+    }
 }
 ?>
