@@ -29,7 +29,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 break;
             case 'signup':
                 $fecha = setFecha($input['fechaN']);
-                $d = $conn->newUserBasic($input['nickname'], $input['hashedPassword'], $input['nombres'], $input['apellidoP'], $input['apellidoM'], $fecha, $input['correo']);
+                $pass = password_hash($input['pass'], PASSWORD_DEFAULT);
+                $d = $conn->newUserBasic($input['nickname'], $pass, $input['nombres'], $input['apellidoP'], $input['apellidoM'], $fecha, $input['correo']);
+                //$input['nickname'], $pass, $input['nombres'], $input['apellidoP'], $input['apellidoM'], $fecha, $input['correo']
                 if ($d['estatus'] == 'ok')
                     $data = [
                         'action' => 'singup',
