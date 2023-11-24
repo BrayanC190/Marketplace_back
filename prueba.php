@@ -75,7 +75,7 @@ function setFecha($fechaOriginal){
         fecha2 => $fechaFormateada
     ];
 
-    echo json_encode($fechaFormateada);
+    echo json_encode($DATA);
 }
 
 
