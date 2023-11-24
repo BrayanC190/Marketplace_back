@@ -28,20 +28,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     echo json_encode($data);
                 break;
             case 'signup':
-                $fecha = setFecha($input['fechaN']);
-                $pass = password_hash($input['pass'], PASSWORD_DEFAULT);
-                $d = $conn->newUserBasic($input['nickname'], $pass, $input['nombres'], $input['apellidoP'], $input['apellidoM'], $fecha, $input['correo']);
+                //$fecha = setFecha($input['fechaN']);
+                //$pass = password_hash($input['pass'], PASSWORD_DEFAULT);
+               // $d = $conn->newUserBasic($input['nickname'], $pass, $input['nombres'], $input['apellidoP'], $input['apellidoM'], $fecha, $input['correo']);
                 //$input['nickname'], $pass, $input['nombres'], $input['apellidoP'], $input['apellidoM'], $fecha, $input['correo']
-                if ($d['estatus'] == 'ok')
+                /*if ($d['estatus'] == 'ok')
                     $data = [
                         'action' => 'singup',
                         'estatus' => 'ok'
                     ];
-                 else 
+                 else*/
                     $data = [
                         'action' => 'singup',
-                        'estatus' => 'error',
-                        'message' => $d['getMessage']
+                        'estatus' => 'error'
                     ];                               
                 echo json_encode($data);
                 break;
@@ -96,7 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Reformatear la fecha al formato deseado
         $fechaFormateada = $fechaObj->format('Y-m-d');
 
-        echo $fechaFormateada;
+        return $fechaFormateada;
     }
 }
 ?>

@@ -1,7 +1,7 @@
 <?php
 require './Conexion.php';
 header('Access-Control-Allow-Origin:  *');
-header('Access-Control-Allow-Methods: GET');
+header('Access-Control-Allow-Methods: POST, GET');
 header('Access-Control-Allow-Headers: Content-Type');
 header('Content-Type: application/json');
 
@@ -70,8 +70,12 @@ function setFecha($fechaOriginal){
     $fechaObj = DateTime::createFromFormat('d/m/Y', $fechaOriginal);
     // Reformatear la fecha al formato deseado
     $fechaFormateada = $fechaObj->format('Y-m-d');
+    $DATA = [
+        fecha => 'ejemplo',
+        fecha2 => $fechaFormateada
+    ];
 
-    echo $fechaFormateada;
+    echo json_encode($fechaFormateada);
 }
 
 
