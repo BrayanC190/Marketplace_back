@@ -37,8 +37,8 @@ $estatus = $prueba->validate_user('user1','user1');
             ];
         }                
         echo json_encode($data);*/
-/*/PRUEBA UPDATE CUENTA
-    $d = $prueba -> updateUser("user2", "2299102031","5", "1", "2", null, 'boca del rio', 'ver', 'mexico');
+//PRUEBA UPDATE CUENTA
+    $d = $prueba -> updateUser("erwin", "2299102031","5", "1", "2", null, 'boca del rio', 'ver', 'mexico');
     if($d['estatus'] == 'ok')
         $data = [
             'action' => 'update user',
@@ -52,7 +52,7 @@ $estatus = $prueba->validate_user('user1','user1');
         ];
 
     echo json_encode($data);
-    */
+    
 
 /*/PRUEBA CREAR PUBLICACION
 $d = $prueba -> newPost('user2', 'Elote', 2.0, 'pieza','verdura', '2299102030', 'mail.com', null, '1', null, 'venustiano', null, 'boca', 'ver', 'mexico');
@@ -65,18 +65,27 @@ echo json_encode($d);*/
 $d = $prueba->allPost(6);
 echo json_encode($d);
 */
-setFecha("20/11/2023");
+/*$valor -> setFecha("20/11/2023");
+echo $valor;*/
+/*setFecha("20/11/2023");
 function setFecha($fechaOriginal){
     $fechaObj = DateTime::createFromFormat('d/m/Y', $fechaOriginal);
     // Reformatear la fecha al formato deseado
     $fechaFormateada = $fechaObj->format('Y-m-d');
-    $DATA = [
-        fecha => 'ejemplo',
-        fecha2 => $fechaFormateada
+    $datos = [
+        'fecha' => 'ejemplo',
+        'fecha2' => $fechaFormateada
     ];
 
-    echo json_encode($DATA);
-}
+    echo json_encode($datos);
+}*/
+
+/*$datos = [
+    'fecha' => 'ejemplo',
+    'fecha2' => '20/11/2023'
+];
+
+echo json_encode($datos);*/
 
 
 ?>

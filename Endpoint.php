@@ -5,8 +5,8 @@ header('Access-Control-Allow-Methods: POST');
 header('Access-Control-Allow-Headers: Content-Type');
 header('Content-Type: application/json'); 
 
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+//json_encode(file_get_contents('php://input'));
+//if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $input = json_decode(file_get_contents('php://input'), true);
     if (isset($input['action'])) {        
         $conn = new Conexion();
@@ -28,16 +28,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     echo json_encode($data);
                 break;
             case 'signup':
-                //$fecha = setFecha($input['fechaN']);
-                //$pass = password_hash($input['pass'], PASSWORD_DEFAULT);
-               // $d = $conn->newUserBasic($input['nickname'], $pass, $input['nombres'], $input['apellidoP'], $input['apellidoM'], $fecha, $input['correo']);
-                //$input['nickname'], $pass, $input['nombres'], $input['apellidoP'], $input['apellidoM'], $fecha, $input['correo']
-                /*if ($d['estatus'] == 'ok')
+                $fecha = setFecha($input['fechaN']);
+                $pass = password_hash($input['pass'], PASSWORD_DEFAULT);
+                $d = $conn->newUserBasic($input['nickname'], $pass, $input['nombres'], $input['apellidoP'], $input['apellidoM'], $fecha, $input['correo']);
+                //$input['nickname'], $pass, $input['nombres'], $input['apellidoP'], $input['apellidoM'], $fechaN, $input['correo']
+                if ($d['estatus'] == 'ok')
                     $data = [
                         'action' => 'singup',
                         'estatus' => 'ok'
                     ];
-                 else*/
+                 else
                     $data = [
                         'action' => 'singup',
                         'estatus' => 'error'
@@ -62,31 +62,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 break;
             case 'smallPost':
                 $d = $conn->smallPost();
-                if($d['estatus'] == 'ok')
-                    $data = [
-                        'action' => 'smallPost',
-                        'estatus' => 'ok'
-                    ];                    
-                else
-                    $data = [
-                        'action' => 'smallPost',
-                        'estatus' => 'error'
-                    ];
                 echo json_encode($d);
                 break;
-            case 'allPublicacion':
-                $d = $conn->allPublicacion($input['id']);
-                if($d['estatus'] == 'ok')
-                    $data = [
-                        'action' => 'smallPost',
-                        'estatus' => 'ok'
-                    ];                    
-                else
-                    $data = [
-                        'action' => 'smallPost',
-                        'estatus' => 'error'
-                    ];
+            case 'allPost':
+                $d = $conn->allPost($input['id']);
                 echo json_encode($d);
+                break;
+            case 'prueba':
+                $datos = [
+                    'fecha' => 'ejemplo',
+                    'fecha2' => 'hola'
+                ];
+            
+                echo json_encode($datos);
+                /*$promise = function($d) {
+                    echo json_encode($d);
+                };*/
+                //$mensaje = json_encode($datos);
+                //promise($mensaje);
+                break;
             }
     }
 
@@ -97,5 +91,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         return $fechaFormateada;
     }
-}
+//}
 ?>

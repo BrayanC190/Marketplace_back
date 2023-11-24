@@ -43,13 +43,13 @@ class Conexion {
         try{
         $stmt = $this->conn->prepare("CALL newUserBasic(:nickname, :pass, :Nombres, :ApellidoP, :ApellidoM, :FechaN, :Correo)");
 
-        $stmt->bindParam(':nickname', $nickname);
-        $stmt->bindParam(':pass', $hashedPassword); 
-        $stmt->bindParam(':Nombres', $nombres);
-        $stmt->bindParam(':ApellidoP', $apellidoP);
-        $stmt->bindParam(':ApellidoM', $apellidoM);
-        $stmt->bindParam(':FechaN', $fechaN);
-        $stmt->bindParam(':Correo', $correo);
+        $stmt->bindValue(':nickname', $nickname);
+        $stmt->bindValue(':pass', $hashedPassword); 
+        $stmt->bindValue(':Nombres', $nombres);
+        $stmt->bindValue(':ApellidoP', $apellidoP);
+        $stmt->bindValue(':ApellidoM', $apellidoM);
+        $stmt->bindValue(':FechaN', $fechaN);
+        $stmt->bindValue(':Correo', $correo);
 
         $stmt->execute();
         $data = ['estatus' => 'ok'];
@@ -66,17 +66,17 @@ class Conexion {
 
     public function updateUser($nickname, $telefono, $Calle1, $Calle2, $Colonia, $Lote, $Municipio, $Estado, $Pais){
         try{
-            $stmt = $this->conn->prepare("CALL updateUser(nickname, telefono, Calle1, Calle2, Colonia, Lote, Municipio, Estado, Pais)");
+            $stmt = $this->conn->prepare("CALL updateUser(:nickname, :telefono, :Calle1, :Calle2, :Colonia, :Lote, :Municipio, :Estado, :Pais)");
             
-            $stmt->bindParam(':nickname', $nickname);
-            $stmt->bindParam(':telefono', $telefono);
-            $stmt->bindParam(':Calle1', $Calle1);
-            $stmt->bindParam(':Calle2', $Calle2);
-            $stmt->bindParam(':Colonia', $Colonia);
-            $stmt->bindParam(':Lote', $Lote);
-            $stmt->bindParam(':Municipia', $Municipi);
-            $stmt->bindParam(':Estado', $Estado);            
-            $stmt->bindParam(':Pais', $Pais);   
+            $stmt->bindValue(':nickname', $nickname);
+            $stmt->bindValue(':telefono', $telefono);
+            $stmt->bindValue(':Calle1', $Calle1);
+            $stmt->bindValue(':Calle2', $Calle2);
+            $stmt->bindValue(':Colonia', $Colonia);
+            $stmt->bindValue(':Lote', $Lote);
+            $stmt->bindValue(':Municipio', $Municipio);
+            $stmt->bindValue(':Estado', $Estado);            
+            $stmt->bindValue(':Pais', $Pais);   
             $stmt->execute();         
             $data = ['estatus' => 'ok'];
             return $data;
@@ -133,18 +133,16 @@ class Conexion {
     public function smallPost(){
         $stmt = $this->conn->prepare("CALL smallPublicacion()");
         $stmt->execute();
-        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        $response = json_encode($data);
-        return $response;
+        
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function allPost($id){
         $stmt = $this->conn->prepare("call allPublicacion(:ID)");
         $stmt->bindValue(':ID', $id);
         $stmt->execute();
-        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        $response = json_encode($data);
-        return $response;
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
 ?>
