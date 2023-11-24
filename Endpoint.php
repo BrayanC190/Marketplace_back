@@ -68,6 +68,13 @@ header('Content-Type: application/json');
                 $d = $conn->allPost($input['id']);
                 echo json_encode($d);
                 break;
+            case 'getUser':
+                $data = [
+                    action => "getuser",
+                    estatus => "ok"
+                ];
+                echo json_encode($data);
+                break;
             case 'prueba':
                 $datos = [
                     'fecha' => 'ejemplo',
