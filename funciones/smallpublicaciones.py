@@ -1,3 +1,4 @@
+#  En proceso, no funcional
 from conexion import conexion
 import json
 
@@ -5,21 +6,19 @@ def getSmallPublicaciones():
     conn = conexion().getConexion()
     cursor = conn.curor()
     cursor.execute(f"call marketplace.smallPublicacion()")
-    fila = cursor.fetchone()
-    if fila:
-        smallPublicacion ={ 
-            'idPublicacion': fila[0],
-            'fecha': fila[1],
-            'Nombre': fila[2],
-            'Precio': fila[3],
-            'Municipio': fila[4],
-            'Estado': fila[5],
-            'Pais': fila[6],
-        }
-        cursor.close()
-        conn.close()
-        return smallPublicacion 
-    else:         
-        cursor.close()
-        conn.close()
-        return False
+    fila = cursor.fetchall()
+    #Se crea la lista de publicaciones que contendra (idPublicacion,fecha,Nombre,Precio,Municipio,Estado,Pais)
+    publicaciones = []
+    for i in range(len(fila)):
+        publicaciones.append({
+            'idPublicacion' : fila[i][0],
+            'fecha' : fila[i][1],
+            'nombre' : fila[i][2],
+            'precio' : fila[i][3],
+            'municipio' : fila[i][4],
+            'estado' : fila[i][5],
+            'pais' : fila[i][6]
+        })
+    cursor.close()
+    conn.close()
+    return publicaciones

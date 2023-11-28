@@ -3,6 +3,7 @@ import json
 #from modelos.usuario import usuario
 from funciones.usuarios import getUser as gu, updateUser as uu, createUser as cu
 from funciones.smallpublicaciones import getSmallPublicaciones as sp
+from funciones.allpublicaciones import getAllPublicaciones as ap
 
 
 app = FastAPI()
@@ -32,5 +33,12 @@ async def createUser(nickname : str, password :str, nombres : str, apellidoP : s
 
 @app.get("/getSmallPublicaciones/")
 async def getSmallPublicaciones():
-    sp = getSmallPublicaciones()
-    return sp
+    publicaciones = []
+    for i in range(len(sp)):
+        publicaciones.append(sp[i])
+    return publicaciones
+
+@app.get("/getAllPublicaciones/{idPublicacion}")
+async def getAllPublicaciones(idPublicacion : int):
+    publicacion = ap(idPublicacion)
+    return publicacion
