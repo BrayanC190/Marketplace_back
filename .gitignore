@@ -1,5 +1,5 @@
-# dependencies
-/__pycache__/
-/fastAPI/__pycache__/
-/funciones/__pycache__/
-/modelos/__pycache__/
+#omitir la cache de fast api
+/_pycache_/
+/fastAPI/_pycache_/
+/funciones/_pycache_/
+/modelos/_pycache_/

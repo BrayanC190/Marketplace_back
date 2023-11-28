@@ -2,6 +2,7 @@ from fastapi import FastAPI
 import json
 #from modelos.usuario import usuario
 from funciones.usuarios import getUser as gu, updateUser as uu, createUser as cu
+from funciones.smallpublicaciones import getSmallPublicaciones as sp
 
 
 app = FastAPI()
@@ -29,3 +30,7 @@ async def updateUser(nickname : str, telefono : str, calle1 : str, calle2 : str,
 async def createUser(nickname : str, password :str, nombres : str, apellidoP : str, apellidoM :str, fechaN : str, correo : str):
     new = cu(nickname, password, nombres, apellidoP, apellidoM, fechaN, correo)
 
+@app.get("/getSmallPublicaciones/")
+async def getSmallPublicaciones():
+    sp = getSmallPublicaciones()
+    return sp
