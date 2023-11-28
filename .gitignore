@@ -1,4 +1,4 @@
-# dependencies
+#omitir la cache de fast api
 /__pycache__/
 /fastAPI/__pycache__/
 /funciones/__pycache__/
