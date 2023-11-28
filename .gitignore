@@ -1,4 +1,5 @@
 # dependencies
-#/fastAPI/__pycache__
-#/funciones/__pycache__
-#/modelos/__pycache__
+/__pycache__
+/fastAPI/
+/funciones/__pycache__
+/modelos/__pycache__
