@@ -1,6 +1,7 @@
 from conexion import conexion
 import bcrypt
 from pydantic import BaseModel
+from datetime import datetime
 
 class credenciales(BaseModel):
     nickname: str
@@ -86,7 +87,8 @@ def createUser(nickname : str, password :str, nombres : str, apellidoP : str, ap
     conn = conexion().getConexion()
     cursor = conn.cursor()  
     pass_hash = hash_password_str(password)
-    cursor.execute(f"call newUserBasic('{nickname}', '{pass_hash}', '{nombres}', '{apellidoP}', '{apellidoM}', '{fechaN}', '{correo}')")  
+    fecha = convertir_fecha(fechaN)
+    cursor.execute(f"call newUserBasic('{nickname}', '{pass_hash}', '{nombres}', '{apellidoP}', '{apellidoM}', '{fecha}', '{correo}')")  
     cursor.close()
     conn.close()
 
@@ -104,3 +106,16 @@ def verify_password(stored_hash, user_input_password):
         stored_hash = stored_hash.encode('utf-8')
 
     return bcrypt.checkpw(user_input_password.encode('utf-8'), stored_hash)
+
+def convertir_fecha(fecha_dd_mm_aaaa):
+    try:
+        # Parsea la fecha en formato DD/MM/AAAA
+        fecha_obj = datetime.strptime(fecha_dd_mm_aaaa, '%d/%m/%Y')
+        
+        # Convierte la fecha al formato AAAA-MM-DD
+        fecha_aaaa_mm_dd = fecha_obj.strftime('%Y-%m-%d')
+        
+        return fecha_aaaa_mm_dd
+    except ValueError:
+        # Maneja errores si la fecha no es válida
+        return "Fecha inválida"
