@@ -30,7 +30,7 @@ def getAllPublicaciones(idPublicacion : str):
         }               
         cursor.close()
         conn.close()
-        return usuario 
+        return publicacion 
     else:         
         cursor.close()
         conn.close()
