@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 import json
 #from modelos.usuario import usuario
 from funciones.usuarios import getUser as gu, updateUser as uu, createUser as cu, validateLogin as vl
@@ -7,7 +8,18 @@ from funciones.smallpublicaciones import getSmallPublicaciones as sp
 from funciones.allpublicaciones import getAllPublicaciones as ap
 
 
+from fastapi.middleware.cors import CORSMiddleware
+
 app = FastAPI()
+
+# Configuración de CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Permite todas las origins
+    allow_credentials=True,
+    allow_methods=["*"],  # Permite todos los métodos
+    allow_headers=["*"],  # Permite todos los headers
+)
 
 """
 @app.get("/getUsers/{id}")
