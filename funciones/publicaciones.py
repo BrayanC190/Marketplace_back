@@ -1,44 +1,7 @@
 #  En proceso, no funcional
 from conexion import conexion
-from pydantic import BaseModel
 from fastapi import HTTPException
 
-class smallpublicacion(BaseModel):
-    id : int
-    fecha : str
-    Nombre : str
-    Precio : str
-    Municipio : str
-    Estado : str
-    Pais : str
-
-''''
-def getSmallPublicaciones():
-    try:
-        conn = conexion().getConexion()
-        cursor = conn.curor()
-        cursor.execute(f"call marketplace.smallPublicacion()")
-        fila = cursor.fetchone()
-        if fila:
-            usuario = {
-                'id' : fila[0],
-                'fecha' : nickname,
-                'Nombre' : fila[3],
-                'Precio' : fila[4],
-                'Municipio' : fila[5],
-                'Estado' : fila[6],
-                'Pais' :  fila[7],
-            }               
-            cursor.close()
-            conn.close()        
-            return usuario 
-        else:         
-            cursor.close()
-            conn.close()
-            return False
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-    '''
 def getSmallPublicaciones():
     try:
         conn = conexion().getConexion()
@@ -68,3 +31,38 @@ def getSmallPublicaciones():
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+def getAllPublicaciones(idPublicacion: int):
+    conn = conexion().getConexion()
+    cursor = conn.cursor()
+    cursor.execute(f"call marketplace.allPublicacion({idPublicacion})")
+    fila = cursor.fetchone()
+    if fila:
+        publicacion = {
+           'idPublicacion' : idPublicacion,
+            'fecha' : fila[1],
+            'nombre' : fila[2],
+            'precio' : fila[3],
+            'unidad' : fila[4],
+            'descripcion' : fila[5],
+            'nombres' : fila[6],
+            'apellidoP' : fila[7],
+            'nickname' : fila[8],
+            'telefono' : fila[9],
+            'correo' : fila[10],
+            'web' : fila[11],
+            'calle1' : fila[12],
+            'calle2' : fila[13],
+            'lote' : fila[14],
+            'colonia' : fila[15],
+            'municipio' : fila[16],
+            'estado' : fila[17],
+            'pais' : fila[18],
+        }
+        cursor.close()
+        conn.close()
+        return publicacion
+    else:
+        cursor.close()
+        conn.close()
+        return False

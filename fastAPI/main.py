@@ -1,11 +1,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-import json
-#from modelos.usuario import usuario
-from funciones.usuarios import getUser as gu, updateUser as uu, createUser as cu, validateLogin as vl
-from funciones.usuarios import credenciales as lu, updateDatos as ud, newDatos as nd
-from funciones.smallpublicaciones import getSmallPublicaciones as sp
-from funciones.allpublicaciones import getAllPublicaciones as ap
+#from funciones.usuarios import getUser as gu, updateUser as uu, createUser as cu, validateLogin as vl
+#from funciones.usuarios import credenciales as lu, updateDatos as ud, newDatos as nd
+from funciones.usuarios import *
+from funciones.publicaciones import *
 
 app = FastAPI()
 
@@ -18,42 +16,32 @@ app.add_middleware(
     allow_headers=["*"],  # Permite todos los headers
 )
 
-"""
-@app.get("/getUsers/{id}")
-async def getUser(nickname:str):
-    u = usuario()
-    user = u.upload(f"{nickname}")
-    #usuario_dict = user.to_dict()
-    #usuario_json = json.dumps(usuario_dict)
-    return {"prueba"}
-"""
 @app.post("/login")
-def login(crendeciales : lu):
-    valid = vl(crendeciales.nickname, crendeciales.password)
+def e_login(e_crendeciales : credenciales):
+    valid = validateLogin(e_crendeciales.nickname, e_crendeciales.password)
     if (valid): return {"msg":"usuario valido"}
-    else : return {"msg" : "usuario invalido", "user":crendeciales.nickname, "pass":crendeciales.password}
+    else : return {"msg" : "usuario invalido", "user":e_crendeciales.nickname, "pass":e_crendeciales.password}
 
 @app.get("/getUser/{nickname}")
-async def getUser(nickname : str):
-    print(nickname)
-    usuario = gu(nickname)
+async def e_getUser(nickname : str):
+    usuario = getUser(nickname)
     return usuario
 
 @app.put("/updateuser")
-def updateUser(datos : ud):
-    up = uu(datos.nickname, datos.telefono, datos.calle1, datos.calle2, datos.colonia, datos.lote, datos.municipio, datos.estado, datos.pais)
+def e_updateUser(e_datos : updateDatos):
+    up = updateUser(e_datos.nickname, e_datos.telefono, e_datos.calle1, e_datos.calle2, e_datos.colonia, e_datos.lote, e_datos.municipio, e_datos.estado, e_datos.pais)
 
 @app.post("/createuser")
-def createUser(cuenta : nd):
-    new = cu(cuenta.nickname, cuenta.password, cuenta.nombres, cuenta.apellidoP, cuenta.apellidoM, cuenta.fechaN, cuenta.correo)
+def e_createUser(e_cuenta : newDatos):
+    new = createUser(e_cuenta.nickname, e_cuenta.password, e_cuenta.nombres, e_cuenta.apellidoP, e_cuenta.apellidoM, e_cuenta.fechaN, e_cuenta.correo)
 
 
 @app.get("/getSmallPublicaciones/")
-async def getSmallPublicaciones():
-    pub = sp()
+async def e_getSmallPublicaciones():
+    pub = getSmallPublicaciones()
     return pub
 
 @app.get("/getAllPublicaciones/{idPublicacion}")
-async def getAllPublicaciones(idPublicacion : int):
-    publicacion = ap(idPublicacion)
+async def e_getAllPublicaciones(idPublicacion : int):
+    publicacion = getAllPublicaciones(idPublicacion)
     return publicacion

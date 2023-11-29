@@ -97,6 +97,7 @@ def createUser(nickname : str, password :str, nombres : str, apellidoP : str, ap
     cursor.close()
     conn.close()
 
+#funciones propias
 def hash_password_str(password):
     salt = bcrypt.gensalt()
     pas = bcrypt.hashpw(password.encode('utf-8'), salt)
