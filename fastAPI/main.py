@@ -7,9 +7,6 @@ from funciones.usuarios import credenciales as lu, updateDatos as ud, newDatos a
 from funciones.smallpublicaciones import getSmallPublicaciones as sp
 from funciones.allpublicaciones import getAllPublicaciones as ap
 
-
-from fastapi.middleware.cors import CORSMiddleware
-
 app = FastAPI()
 
 # Configuración de CORS
@@ -38,6 +35,7 @@ def login(crendeciales : lu):
 
 @app.get("/getUser/{nickname}")
 async def getUser(nickname : str):
+    print(nickname)
     usuario = gu(nickname)
     return usuario
 
@@ -52,10 +50,8 @@ def createUser(cuenta : nd):
 
 @app.get("/getSmallPublicaciones/")
 async def getSmallPublicaciones():
-    publicaciones = []
-    for i in range(len(sp)):
-        publicaciones.append(sp[i])
-    return publicaciones
+    pub = sp()
+    return pub
 
 @app.get("/getAllPublicaciones/{idPublicacion}")
 async def getAllPublicaciones(idPublicacion : int):

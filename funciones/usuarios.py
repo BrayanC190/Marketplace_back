@@ -2,6 +2,7 @@ from conexion import conexion
 import bcrypt
 from pydantic import BaseModel
 from datetime import datetime
+from fastapi import HTTPException
 
 class credenciales(BaseModel):
     nickname: str
@@ -44,37 +45,41 @@ def validateLogin(nickname : str, password : str):
     ##return {"bd": password_BD, "pass":password_hash, "is":is_correct}
 
 def getUser(nickname : str):
-    conn = conexion().getConexion()
-    cursor = conn.cursor()
-    cursor.execute(f"call marketplace.getUser('{nickname}')")
-    fila = cursor.fetchone()
-    if fila:
-        usuario = {
-            'id' : fila[0],
-            'nickname' : nickname,
-            'password' : fila[3],
-            'nombres' : fila[4],
-            'apellidoP' : fila[5],
-            'apellidoM' : fila[6],
-            'fechaN' :  fila[7],
-            'correo' : fila[8],
-            'telefono' : fila[9],
+    print(f"call marketplace.getUser('{nickname}')")
+    try:
+        conn = conexion().getConexion()
+        cursor = conn.cursor()
+        cursor.execute(f"call marketplace.getUser('{nickname}')")
+        fila = cursor.fetchone()
+        if fila:
+            usuario = {
+                'id' : fila[0],
+                'nickname' : nickname,
+                'password' : fila[3],
+                'nombres' : fila[4],
+                'apellidoP' : fila[5],
+                'apellidoM' : fila[6],
+                'fechaN' :  fila[7],
+                'correo' : fila[8],
+                'telefono' : fila[9],
 
-            'calle1' : fila[11],
-            'calle2' : fila[12],
-            'colonia' : fila[13],
-            'lote' : fila[14],
-            'municipio' : fila[15],
-            'estado' : fila[16],
-            'pais' : fila[17],
-        }               
-        cursor.close()
-        conn.close()
-        return usuario 
-    else:         
-        cursor.close()
-        conn.close()
-        return False
+                'calle1' : fila[11],
+                'calle2' : fila[12],
+                'colonia' : fila[13],
+                'lote' : fila[14],
+                'municipio' : fila[15],
+                'estado' : fila[16],
+                'pais' : fila[17],
+            }               
+            cursor.close()
+            conn.close()        
+            return usuario 
+        else:         
+            cursor.close()
+            conn.close()
+            return False
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
     
 def updateUser(nickname : str, telefono : str, calle1 : str, calle2 : str, colonia : str, lote : int, municipio : str, estado : str, pais : str):
     conn = conexion().getConexion()
