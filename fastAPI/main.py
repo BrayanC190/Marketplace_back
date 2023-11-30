@@ -64,4 +64,13 @@ async def e_newComentario(datos : datosComentario):
     nc = newComentario(datos.idPublicacion, datos.nickname, datos.comentario)
     return nc
 
+@app.post("/getChat")
+async def e_getChat(datos : usuariosChat):
+    gc = getChat(datos.nickname1, datos.nickname2)
+    return gc
+
+@app.put("/chat")
+async def e_chat(datos : Chat):
+    chat = addChat(datos.nickname1, datos.nickname2, datos.msg)
+    return chat
 #  
