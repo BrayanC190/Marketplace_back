@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from funciones.usuarios import *
 from funciones.publicaciones import *
+from funciones.chat import *
 
 app = FastAPI()
 
@@ -44,6 +45,11 @@ async def e_getAllPublicaciones(idPublicacion : int):
     publicacion = getAllPublicaciones(idPublicacion)
     return publicacion
 
+@app.get("/misPost{nickname}")
+async def e_misPost(nickname : str):
+    mp = misPost(nickname)
+    return mp
+
 @app.get("/getGuardados{nickname}")
 async def e_getGuardados(nickname : str):
     guardados = getGuardados(nickname)
@@ -73,4 +79,9 @@ async def e_getChat(datos : usuariosChat):
 async def e_chat(datos : Chat):
     chat = addChat(datos.nickname1, datos.nickname2, datos.msg)
     return chat
+
+@app.post("/getConversaciones")
+async def e_getConversaciones(nickname : str):
+    gc = getConversaciones(nickname)
+    return gc
 #  
