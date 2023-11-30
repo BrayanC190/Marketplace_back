@@ -11,6 +11,9 @@ class Chat(BaseModel):
     nickname2 : str
     msg : str
 
+class Conversacion(BaseModel):
+    nickname : str
+
 def getChat(nickname1 : str, nickname2 : str):
     try:
         conn = conexion().getConexion()

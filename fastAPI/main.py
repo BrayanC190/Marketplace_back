@@ -86,7 +86,7 @@ async def e_chat(datos : Chat):
     return chat
 
 @app.post("/getConversaciones")
-async def e_getConversaciones(nickname : str):
-    gc = getConversaciones(nickname)
+async def e_getConversaciones(dato : Conversacion):
+    gc = getConversaciones(dato.nickname)
     return gc
 #  
