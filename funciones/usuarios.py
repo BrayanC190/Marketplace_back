@@ -50,34 +50,40 @@ def getUser(nickname : str):
         conn = conexion().getConexion()
         cursor = conn.cursor()
         cursor.execute(f"call marketplace.getUser('{nickname}')")
+        #numero_de_filas = len(cursor)        
         fila = cursor.fetchone()
-        if fila:
-            usuario = {
-                'id' : fila[0],
-                'nickname' : nickname,
-                'password' : fila[3],
-                'nombres' : fila[4],
-                'apellidoP' : fila[5],
-                'apellidoM' : fila[6],
-                'fechaN' :  fila[7],
-                'correo' : fila[8],
-                'telefono' : fila[9],
+        print(len(fila))
+        if(fila):
 
-                'calle1' : fila[11],
-                'calle2' : fila[12],
-                'colonia' : fila[13],
-                'lote' : fila[14],
-                'municipio' : fila[15],
-                'estado' : fila[16],
-                'pais' : fila[17],
-            }               
+            usuario = {
+                    'id' : fila[0],
+                    'nickname' : nickname,
+                    'password' : fila[3],
+                    'nombres' : fila[4],
+                    'apellidoP' : fila[5],
+                    'apellidoM' : fila[6],
+                    'fechaN' :  fila[7],
+                    'correo' : fila[8],
+                    'telefono' : fila[9]
+                }
+
+            if len(fila) >= 11:                
+
+                    usuario['calle1'] = fila[11]
+                    usuario['calle2'] = fila[12]
+                    usuario['colonia'] = fila[13]
+                    usuario['lote'] = fila[14]
+                    usuario['municipio'] = fila[15]
+                    usuario['estado'] = fila[16]
+                    usuario['pais'] = fila[17]
+                              
             cursor.close()
             conn.close()        
             return usuario 
         else:         
             cursor.close()
             conn.close()
-            return False
+            return False        
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
     
