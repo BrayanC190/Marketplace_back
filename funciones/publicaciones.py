@@ -66,3 +66,45 @@ def getAllPublicaciones(idPublicacion: int):
         cursor.close()
         conn.close()
         return False
+    
+def getGuardados(nickname : str):
+    try:
+        conn = conexion().getConexion()
+        cursor = conn.cursor()  
+        cursor.execute(f"call marketplace.getGuardados('{nickname}')")
+
+        guardados = []
+
+        filas = cursor.fetchall()
+        for fila in filas:
+            publicacion = {
+                'id': fila[0],
+                'idPublicacion' : fila[1],
+                'fecha': fila[2], 
+                'Nombre': fila[3],
+                'Precio': fila[4],
+                'Municipio': fila[5],
+                'Estado': fila[6],
+                'Pais': fila[7],
+            }
+            guardados.append(publicacion)
+
+        cursor.close()
+        conn.close()
+        return guardados
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
+def newGuardado(nickname : str, idP : int):
+    try:
+        conn = conexion().getConexion()
+        cursor = conn.cursor()   
+        cursor.callproc("newGuardado", (nickname, idP))
+        cursor.close()
+        conn.close()
+        return True
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
+#

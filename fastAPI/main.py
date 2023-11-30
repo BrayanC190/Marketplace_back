@@ -1,7 +1,5 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-#from funciones.usuarios import getUser as gu, updateUser as uu, createUser as cu, validateLogin as vl
-#from funciones.usuarios import credenciales as lu, updateDatos as ud, newDatos as nd
 from funciones.usuarios import *
 from funciones.publicaciones import *
 
@@ -45,3 +43,15 @@ async def e_getSmallPublicaciones():
 async def e_getAllPublicaciones(idPublicacion : int):
     publicacion = getAllPublicaciones(idPublicacion)
     return publicacion
+
+@app.get("/getGuardados{nickname}")
+async def e_getGuardados(nickname : str):
+    guardados = getGuardados(nickname)
+    return guardados
+
+@app.get("/newGuardado")
+async def e_newGuardado():
+    ng = newGuardado("user2", "9")
+    return ng
+
+#  
