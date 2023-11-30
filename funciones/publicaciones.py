@@ -108,3 +108,13 @@ def newGuardado(nickname : str, idP : int):
         raise HTTPException(status_code=500, detail=str(e))
     
 #
+def getGuardados(nickname:str):
+    try:
+        conn = conexion().getConexion()
+        cursor = conn.cursor()   
+        cursor.callproc("getGuardado", (nickname))
+        cursor.close()
+        conn.close()
+        return True
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
