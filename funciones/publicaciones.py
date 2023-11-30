@@ -12,6 +12,24 @@ class datosGuardados(BaseModel):
     nickname : str
     idP : int
 
+class Publicacion(BaseModel):
+    nickname : str 
+    nombre: str
+    precio: str
+    unidad: str
+    descripcion: str
+    telefono: str
+    correo: str
+    web: str
+    calle1: str 
+    cale2 : str
+    colonia: str
+    lote: int
+    municipio : str
+    estado: str
+    pais: str
+
+
 def getSmallPublicaciones():
     try:
         conn = conexion().getConexion()
@@ -76,7 +94,20 @@ def getAllPublicaciones(idPublicacion: int):
         cursor.close()
         conn.close()
         return False
-    
+
+def newPost(nickname, nombre, precio, unidad, descripcion, telefono, correo, web, c1, c2, c, l, m, e, p): 
+    try:
+        conn = conexion().getConexion()
+        cursor = conn.cursor()   
+        cursor.callproc("newPublicacion", (nickname, nombre, precio, unidad, descripcion, telefono, correo, web, c1, c2, c, l, m, e, p, '@p_referenciaOut'))
+        cursor.execute("SELECT @p_referenciaOut")
+        fila = cursor.fetchone()
+        cursor.close()
+        conn.close()
+        return fila[0]
+    except Exception as ex:
+        raise HTTPException(status_code=500, detail=str(ex))
+
 def getGuardados(nickname : str):
     try:
         conn = conexion().getConexion()

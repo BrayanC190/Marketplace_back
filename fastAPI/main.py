@@ -45,6 +45,11 @@ async def e_getAllPublicaciones(idPublicacion : int):
     publicacion = getAllPublicaciones(idPublicacion)
     return publicacion
 
+@app.post("/newPost")
+async def e_newPost(datos : Publicacion):
+    np = newPost(datos.nickname, datos.nombre, datos.precio, datos.unidad, datos.descripcion, datos.telefono, datos.correo, datos.web, datos.calle1, datos.cale2, datos.colonia, datos.lote, datos.municipio, datos.estado, datos.pais)
+    return np
+
 @app.get("/misPost{nickname}")
 async def e_misPost(nickname : str):
     mp = misPost(nickname)
