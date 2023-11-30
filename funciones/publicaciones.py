@@ -1,6 +1,16 @@
 #  En proceso, no funcional
 from conexion import conexion
 from fastapi import HTTPException
+from pydantic import BaseModel
+
+class datosComentario(BaseModel):
+    idPublicacion : int
+    nickname : str
+    comentario : str
+
+class datosGuardados(BaseModel):
+    nickname : str
+    idP : int
 
 def getSmallPublicaciones():
     try:
@@ -107,4 +117,39 @@ def newGuardado(nickname : str, idP : int):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
     
+def getComentario(idP : int):
+    try:
+        conn = conexion().getConexion()
+        cursor = conn.cursor()   
+        cursor.execute(f"call marketplace.getComentario({idP})")
+
+        guardados = []
+
+        filas = cursor.fetchall()
+        for fila in filas:
+            publicacion = {
+                'idComentario': fila[0],
+                'idPublicacion' : fila[1],
+                'fechaPublicacion': fila[2], 
+                'nickname': fila[3],
+                'comentario': fila[4],
+            }
+            guardados.append(publicacion)
+
+        cursor.close()
+        conn.close()
+        return guardados
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+def newComentario(idP : int, nickname : str, comentario : str):
+    try:
+        conn = conexion().getConexion()
+        cursor = conn.cursor()   
+        cursor.callproc("newComentario", (idP, nickname, comentario))
+        cursor.close()
+        conn.close()
+        return True
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 #

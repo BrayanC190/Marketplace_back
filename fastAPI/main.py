@@ -49,9 +49,19 @@ async def e_getGuardados(nickname : str):
     guardados = getGuardados(nickname)
     return guardados
 
-@app.get("/newGuardado")
-async def e_newGuardado():
-    ng = newGuardado("user2", "9")
+@app.post("/newGuardado")
+async def e_newGuardado(datos : datosGuardados):
+    ng = newGuardado(datos.nickname, datos.idP)
     return ng
+
+@app.get("/getComentarios{idP}")
+async def e_getComentrios(idP : int):
+    gc = getComentario(idP)
+    return gc
+
+@app.post("/newComentario")
+async def e_newComentario(datos : datosComentario):
+    nc = newComentario(datos.idPublicacion, datos.nickname, datos.comentario)
+    return nc
 
 #  
